@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e # Exit on error.
+set -x
 
 . ./mailman.conf
 
@@ -21,7 +22,7 @@ function getIndex() {
       "$LISTURL"
   else
     curl --silent \
-      --data "username=${BRUGER}&password=${LOESEN}" \
+      --data "username=${USER}&password=${PASSWORD}" \
       --cookie-jar "$COOKIEJAR" \
       "$LISTURL"
   fi
