@@ -15,7 +15,7 @@ function gitignore() {
 
 function getIndex() {
   # Don't attempt to re-login if login happened less than 30 minutes ago:
-  if find "$COOKIEJAR" -mmin -30 > /dev/null || false; then
+  if [ -f "$COOKIEJAR" ] && find "$COOKIEJAR" -mmin -30 > /dev/null; then
     curl --silent \
       --cookie "$COOKIEJAR" \
       "$LISTURL"
