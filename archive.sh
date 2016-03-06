@@ -75,7 +75,7 @@ gitignore "$LIST"
 INDEX=$(getIndex)
 
 if [ $# -lt 1 ]; then
-  getArchives "$(getIndex)"
+  getArchives "$INDEX"
 else
   getArchive "$1.txt.gz"
 fi
