@@ -45,4 +45,5 @@ or
 
 ## License
 
-MIT
+[![MIT
+licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/oleks/mailman2-archiver/master/LICENSE)
