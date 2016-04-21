@@ -18,18 +18,7 @@ showHelp () {
   showUsage
   echo ""
   cat <<EOF
-Downloads the mailman2 archive described in mailman.conf together with the
-(optional) year and month command-line argument. The archive will be downloaded
-to \$LIST under current working directory where LIST is specified in
-mailman.conf. Here is a sample mailman.conf:
-
-  # -*- mode: conf-mode -*-
-  # vim: set ft=config
-
-  BASEURL="https://ourmailmandomain.org/mailman/private"
-  LIST="ourmailinglist"
-  USERNAME="mymail@mydomain.org"
-  PASSWORD="password123"
+See README.md for more information.
 EOF
 }
 
@@ -77,7 +66,7 @@ if [ -z "$PASSWORD" ]; then
   exit 1
 fi
 
-COOKIEJAR="cookies.txt"
+COOKIEJAR="$LIST/cookies.txt"
 LISTURL="$BASEURL/$LIST"
 
 gitignore() {
