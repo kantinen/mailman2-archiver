@@ -32,7 +32,7 @@ just do:
 To specify a configuration file other than `mailman.conf`, use the `-c` or
 `--conf` option:
 
-    $ ./archive.sh -c kantinen.org--bestyrelsen
+    $ ./archive.sh -c kantinen.org--bestyrelsen.conf
 
 To archive a particular sub-archive, specify it as the follow-up argument. For
 instance:
@@ -41,7 +41,7 @@ instance:
 
 or
 
-    $ ./archive.sh -c kantinen.org--bestyrelsen 2015-March
+    $ ./archive.sh -c kantinen.org--bestyrelsen.conf 2015-March
 
 ## License
 
