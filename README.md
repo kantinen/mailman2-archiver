@@ -29,6 +29,11 @@ just do:
 
     $ ./archive.sh
 
+This will create a folder $LIST with the archive under the working directory.
+This folder, together with the given configuration file will also be added to a
+`.gitignore` in the working directory to discourage you from accidentally
+publishing your password.
+
 To specify a configuration file other than `mailman.conf`, use the `-c` or
 `--conf` option:
 
