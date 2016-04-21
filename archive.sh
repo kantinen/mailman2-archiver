@@ -13,7 +13,7 @@ gitignore() {
   fi
 }
 
-getIndex() {
+login() {
   # Don't attempt to re-login if login happened less than 30 minutes ago:
   if [ -f "$COOKIEJAR" ] && find "$COOKIEJAR" -mmin -30 > /dev/null; then
     curl --silent \
@@ -21,24 +21,24 @@ getIndex() {
       "$LISTURL"
   else
     curl --silent \
-      --data "username=${USER}&password=${PASSWORD}" \
+      --data "username=${USERNAME}&password=${PASSWORD}" \
       --cookie-jar "$COOKIEJAR" \
       "$LISTURL"
   fi
 }
 
 getFile() {
-  FILE=$1
+  file=$1
 
   # Create directory substructure:
-  install -D /dev/null "$LIST/$FILE"
+  install -D /dev/null "$LIST/$file"
 
   # Get the file if it is stale:
   curl --cookie "$COOKIEJAR" \
-    -o "$LIST/$FILE" \
-    -z "$LIST/$FILE" \
+    -o "$LIST/$file" \
+    -z "$LIST/$file" \
     --remote-time \
-    "$LISTURL/$FILE"
+    "$LISTURL/$file"
 }
 
 foreach() {
@@ -72,7 +72,7 @@ getAttachments() {
 gitignore "$COOKIEJAR"
 gitignore "$LIST"
 
-INDEX=$(getIndex)
+INDEX=$(login)
 
 if [ $# -lt 1 ]; then
   getArchives "$INDEX"

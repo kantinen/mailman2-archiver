@@ -7,7 +7,7 @@ To use the script, you will have to create the (`.gitignore`d) file
 
     BASEURL="https://ourmailmandomain.org/mailman/private"
     LIST="ourmailinglist"
-    USER="mymail@mydomain.org"
+    USERNAME="mymail@mydomain.org"
     PASSWORD="password123"
 
 You should've gotten the password when you signed up for the mailing list,
