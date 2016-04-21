@@ -4,11 +4,12 @@ set -euo pipefail
 
 showUsage () {
   cat <<EOF
-Usage: $0 [-h|--help] [YYYY-MMMM]
+Usage: $0 [-h|--help] [-c|--conf mailman.conf] [archive]
 
 Examples:
+  \$ $0 -c kantinen.org--bestyrelsen.conf 2015-March
+  \$ $0 -c onlineta.org--sysadmin.conf
   \$ $0 2015-March
-  \$ $0 2016-January
   \$ $0
 EOF
 }
@@ -22,51 +23,56 @@ See README.md for more information.
 EOF
 }
 
+CONF="mailman.conf"
+
 while [ $# -gt 0 ]; do
   case "$1" in
     -h | --help )
       showHelp
       exit 0
       ;;
+    -c | --conf )
+      CONF="$1"
+      shift      
     * )
       break
       ;;
   esac
 done
 
-if [ ! -f "mailman.conf" ]; then
-  echo "Missing a mailman.conf in working directory."
+if [ ! -f "${CONF}" ]; then
+  echo "Missing a ${CONF}"
   showHelp
   exit 1
 fi
 
-. ./mailman.conf
+. ${CONF}
 
 if [ -z "$BASEURL" ]; then
-  echo "BASEURL missing in mailman.conf"
+  echo "BASEURL missing in ${CONF}"
   showHelp
   exit 1
 fi
 
 if [ -z "$LIST" ]; then
-  echo "LIST missing in mailman.conf"
+  echo "LIST missing in ${CONF}"
   showHelp
   exit 1
 fi
 
 if [ -z "$USERNAME" ]; then
-  echo "USERNAME missing in mailman.conf"
+  echo "USERNAME missing in ${CONF}"
   showHelp
   exit 1
 fi
 
 if [ -z "$PASSWORD" ]; then
-  echo "PASSWORD missing in mailman.conf"
+  echo "PASSWORD missing in ${CONF}"
   showHelp
   exit 1
 fi
 
-COOKIEJAR="$LIST/cookies.txt"
+COOKIEJAR="$LIST/cookiejar.txt"
 LISTURL="$BASEURL/$LIST"
 
 gitignore() {
@@ -90,7 +96,7 @@ login() {
 }
 
 getFile() {
-  file=$1
+  file="$1"
 
   # Create directory substructure:
   install -D /dev/null "$LIST/$file"
@@ -131,7 +137,9 @@ getAttachments() {
     getFile
 }
 
-gitignore "$COOKIEJAR"
+mkdir -p "$LIST"
+
+gitignore "$CONF"
 gitignore "$LIST"
 
 INDEX=$(login)
@@ -139,5 +147,13 @@ INDEX=$(login)
 if [ $# -lt 1 ]; then
   getArchives "$INDEX"
 else
+  if ! echo "$INDEX" | grep "$1.txt.gz" > /dev/null; then
+    cat <<EOF
+Can't find $1.txt.gz..
+Check if it appears in the \"Downloadable version\" column at
+  $BASEURL/$LIST/
+EOF
+    exit 1
+  fi
   getArchive "$1.txt.gz"
 fi
