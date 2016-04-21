@@ -32,8 +32,10 @@ while [ $# -gt 0 ]; do
       exit 0
       ;;
     -c | --conf )
+      shift
       CONF="$1"
-      shift      
+      shift
+      ;; 
     * )
       break
       ;;
