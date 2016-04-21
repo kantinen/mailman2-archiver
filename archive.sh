@@ -78,7 +78,9 @@ COOKIEJAR="$LIST/cookiejar.txt"
 LISTURL="$BASEURL/$LIST"
 
 gitignore() {
-  if ! grep "$1" .gitignore > /dev/null; then
+  if [ ! -f .gitignore ]; then
+    echo "$1" > .gitignore
+  elif ! grep "$1" .gitignore > /dev/null; then
     echo "$1" >> .gitignore
   fi
 }
@@ -142,7 +144,7 @@ getAttachments() {
 mkdir -p "$LIST"
 
 gitignore "$CONF"
-gitignore "$LIST"
+gitignore "$LIST/"
 
 INDEX=$(login)
 
