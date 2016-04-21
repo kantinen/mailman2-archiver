@@ -2,7 +2,80 @@
 
 set -euo pipefail
 
+showUsage () {
+  cat <<EOF
+Usage: $0 [-h|--help] [YYYY-MMMM]
+
+Examples:
+  \$ $0 2015-March
+  \$ $0 2016-January
+  \$ $0
+EOF
+}
+
+showHelp () {
+  echo ""
+  showUsage
+  echo ""
+  cat <<EOF
+Downloads the mailman2 archive described in mailman.conf together with the
+(optional) year and month command-line argument. The archive will be downloaded
+to \$LIST under current working directory where LIST is specified in
+mailman.conf. Here is a sample mailman.conf:
+
+  # -*- mode: conf-mode -*-
+  # vim: set ft=config
+
+  BASEURL="https://ourmailmandomain.org/mailman/private"
+  LIST="ourmailinglist"
+  USERNAME="mymail@mydomain.org"
+  PASSWORD="password123"
+EOF
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h | --help )
+      showHelp
+      exit 0
+      ;;
+    * )
+      break
+      ;;
+  esac
+done
+
+if [ ! -f "mailman.conf" ]; then
+  echo "Missing a mailman.conf in working directory."
+  showHelp
+  exit 1
+fi
+
 . ./mailman.conf
+
+if [ -z "$BASEURL" ]; then
+  echo "BASEURL missing in mailman.conf"
+  showHelp
+  exit 1
+fi
+
+if [ -z "$LIST" ]; then
+  echo "LIST missing in mailman.conf"
+  showHelp
+  exit 1
+fi
+
+if [ -z "$USERNAME" ]; then
+  echo "USERNAME missing in mailman.conf"
+  showHelp
+  exit 1
+fi
+
+if [ -z "$PASSWORD" ]; then
+  echo "PASSWORD missing in mailman.conf"
+  showHelp
+  exit 1
+fi
 
 COOKIEJAR="cookies.txt"
 LISTURL="$BASEURL/$LIST"
