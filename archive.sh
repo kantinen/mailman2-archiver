@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e # Exit on error.
+set -euo pipefail
 
 . ./mailman.conf
 
