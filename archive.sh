@@ -7,13 +7,13 @@ set -euo pipefail
 COOKIEJAR="cookies.txt"
 LISTURL="$BASEURL/$LIST"
 
-function gitignore() {
+gitignore() {
   if ! grep "$1" .gitignore > /dev/null; then
     echo "$1" >> .gitignore
   fi
 }
 
-function getIndex() {
+getIndex() {
   # Don't attempt to re-login if login happened less than 30 minutes ago:
   if [ -f "$COOKIEJAR" ] && find "$COOKIEJAR" -mmin -30 > /dev/null; then
     curl --silent \
@@ -27,7 +27,7 @@ function getIndex() {
   fi
 }
 
-function getFile() {
+getFile() {
   FILE=$1
 
   # Create directory substructure:
@@ -41,7 +41,7 @@ function getFile() {
     "$LISTURL/$FILE"
 }
 
-function foreach() {
+foreach() {
   local STREAM="$1"
   local RE="$2"
   local DO="$3"
@@ -52,18 +52,18 @@ function foreach() {
   done
 }
 
-function getArchive() {
+getArchive() {
   getFile "$1"
   getAttachments "$(cat "$LIST/$1")"
 }
 
-function getArchives() {
+getArchives() {
   foreach "$1" \
     "\([0-9]\{4\}-[A-Z][a-z]\\+\\.txt\\.gz\)" \
     getArchive
 }
 
-function getAttachments() {
+getAttachments() {
   foreach "$1" \
     "$LIST\\/\(attachments\\/[0-9]\{8\}\\/.*\)>" \
     getFile
