@@ -102,8 +102,11 @@ login() {
 getFile() {
   file="$1"
 
-  # Create directory substructure:
-  install -D /dev/null "$LIST/$file"
+  if [ ! -f "$LIST/$file" ]; then
+    # Create directory substructure:
+    install -D /dev/null "$LIST/$file"
+    touch -d 0 "$LIST/$file"
+  fi
 
   # Get the file if it is stale:
   curl --cookie "$COOKIEJAR" \
@@ -159,5 +162,5 @@ Check if it appears in the \"Downloadable version\" column at
 EOF
     exit 1
   fi
-  getArchive "$1.txt.gz"
+  getArchive "${1}.txt.gz"
 fi
