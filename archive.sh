@@ -102,14 +102,17 @@ login() {
 getFile() {
   file="$1"
 
-  if [ ! -f "$LIST/$file" ]; then
+  filepath="$LIST/$file"
+  dirpath="$(dirname "$filepath")"
+
+  if [ ! -f "$filepath" ]; then
     # Create directory substructure:
     #install -D /dev/null "$LIST/$file"
-    mkdir -p "$LIST"
+    mkdir -p "$dirpath"
     # Linux touch command, for setting last modification -d
     #touch -d 0 "$LIST/$file"
     # OSX touch command, for setting last modification -a
-    touch -a 0 "$LIST/$file"
+    touch -a 0 "$filepath"
   fi
 
   # Get the file if it is stale:
