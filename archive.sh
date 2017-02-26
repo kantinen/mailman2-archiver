@@ -106,12 +106,9 @@ getFile() {
   dirpath="$(dirname "$filepath")"
 
   if [ ! -f "$filepath" ]; then
-    # Create directory substructure:
-    #install -D /dev/null "$LIST/$file"
+    # Create the containing directory.
     mkdir -p "$dirpath"
-    # Linux touch command, for setting last modification -d
-    #touch -d 0 "$LIST/$file"
-    # OSX touch command, for setting last modification -a
+    # Create an outdated file to let curl replace it.
     touch -a 0 "$filepath"
   fi
 
