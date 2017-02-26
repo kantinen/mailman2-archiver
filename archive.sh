@@ -108,7 +108,7 @@ getFile() {
   if [ ! -f "$filepath" ]; then
     # Create the containing directory.
     mkdir -p "$dirpath"
-    # Create an outdated file to let curl replace it.
+    # Create an outdated file for curl to replace.
     touch -mt 197403201337 "$filepath"
   fi
 
