@@ -109,7 +109,7 @@ getFile() {
     # Create the containing directory.
     mkdir -p "$dirpath"
     # Create an outdated file to let curl replace it.
-    touch -a 0 "$filepath"
+    touch -mt 197403201337 "$filepath"
   fi
 
   # Get the file if it is stale:
