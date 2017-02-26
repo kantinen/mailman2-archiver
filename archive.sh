@@ -104,8 +104,12 @@ getFile() {
 
   if [ ! -f "$LIST/$file" ]; then
     # Create directory substructure:
-    install -D /dev/null "$LIST/$file"
-    touch -d 0 "$LIST/$file"
+    #install -D /dev/null "$LIST/$file"
+    mkdir -p "$LIST"
+    # Linux touch command, for setting last modification -d
+    #touch -d 0 "$LIST/$file"
+    # OSX touch command, for setting last modification -a
+    touch -a 0 "$LIST/$file"
   fi
 
   # Get the file if it is stale:
