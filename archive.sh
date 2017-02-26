@@ -125,7 +125,7 @@ foreach() {
   local RE="$2"
   local DO="$3"
 
-  local Ms=$(echo "$STREAM" | grep "$RE" | perl -pe "s/.*${RE}.*/\1/")
+  local Ms=$(echo "$STREAM" | grep "$RE" | sed "s/.*${RE}.*/\1/")
   echo "$Ms" | while read M; do
     $DO "$M"
   done
